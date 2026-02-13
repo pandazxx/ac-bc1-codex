@@ -5,7 +5,21 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-find_package(raylib REQUIRED)
+find_package(raylib QUIET)
+
+if(NOT raylib_FOUND)
+    include(FetchContent)
+    if(EMSCRIPTEN)
+        set(PLATFORM Web CACHE STRING "" FORCE)
+    endif()
+    set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+    FetchContent_Declare(
+        raylib
+        GIT_REPOSITORY https://github.com/raysan5/raylib.git
+        GIT_TAG 5.5
+    )
+    FetchContent_MakeAvailable(raylib)
+endif()
 
 add_executable(raylib_dino_runner
     src/main.c
