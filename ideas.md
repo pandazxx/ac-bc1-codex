@@ -72,3 +72,6 @@
 - Topic 13 (Game-over restart UX): **Any-key restart** selected.
   - Implementation direction: allow immediate restart from game-over with any gameplay-relevant key.
   - UX rationale: minimize downtime and maximize rapid replay loops.
+- Topic 14 (MVP audio policy): **Minimal SFX only** selected.
+  - Implementation direction: include core feedback sounds (jump, hit, milestone/score cue) without background music.
+  - Scope rationale: improves game feel while keeping MVP production cost low.
