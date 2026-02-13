@@ -45,3 +45,6 @@
 - Topic 4 (Difficulty ramp profile): **Stepped ramp** selected.
   - Implementation direction: increase speed in discrete jumps at score milestones for clear pacing shifts.
   - Initial tuning target: speed step every 100 points with capped max speed.
+- Topic 5 (Obstacle spawn logic): **Pure random with constraints for MVP**, plan to explore **Hybrid pattern + random variation** later.
+  - MVP direction: randomize obstacle type/gap with safety constraints to avoid impossible sequences.
+  - Later-phase direction: introduce curated pattern chunks and randomized micro-variation for better rhythm.
