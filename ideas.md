@@ -31,3 +31,8 @@
   - Add `obstacle` module (spawn, movement, despawn).
   - Add collision checks + score tracking.
   - Add restart flow and game-over UI.
+
+### Topic-by-Topic Decisions
+- Topic 1 (Core game feel): **Arcade-tight** selected.
+  - Implementation direction: faster jump arc, stricter timing windows, strong speed escalation.
+  - Follow-up needed: finalize hitbox strictness and input buffering policy to support this feel.
