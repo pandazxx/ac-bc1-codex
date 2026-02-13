@@ -60,3 +60,6 @@
 - Topic 9 (Technical baseline): **CMake-first** selected.
   - Implementation direction: establish a scalable CMake project layout from the start.
   - Immediate implications: standardize build presets/targets and keep testing hooks compatible with `ctest`.
+- Topic 10 (First playable milestone): **Core-loop-first** selected.
+  - Milestone includes: player controls, obstacle spawning, collision, game-over state, and instant restart.
+  - Success criteria: a complete playable loop with tunable parameters and stable frame pacing.
