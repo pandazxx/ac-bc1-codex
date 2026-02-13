@@ -83,3 +83,6 @@
 - Platform Topic A (Primary MVP target): **Desktop + Web** selected for first release.
   - Implementation direction: keep core loop/input/render path compatible with native and HTML5/WebAssembly builds.
   - Follow-up needed: define persistence fallback behavior for web vs desktop.
+- Platform Topic B (Web performance baseline): **60 FPS target with graceful degradation** selected.
+  - Implementation direction: design for 60 FPS by default while preserving playable behavior under occasional frame drops.
+  - Technical implication: keep update logic delta-time aware and avoid heavy per-frame allocations.
