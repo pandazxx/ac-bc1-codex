@@ -92,3 +92,6 @@
 - Platform Topic D (Web deployment target): **S3 now, Itch.io end-goal** selected.
   - Current workflow: deploy web builds to S3 for early access/testing.
   - Final distribution goal: publish polished web build on Itch.io.
+- Platform Topic E (S3 release model): **Versioned builds + latest alias** selected.
+  - Implementation direction: publish immutable version directories and update a `latest/` pointer for quick access.
+  - Ops benefit: supports rollback and reproducible testing while keeping a stable public link.
