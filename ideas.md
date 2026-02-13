@@ -95,3 +95,6 @@
 - Platform Topic E (S3 release model): **Versioned builds + latest alias** selected.
   - Implementation direction: publish immutable version directories and update a `latest/` pointer for quick access.
   - Ops benefit: supports rollback and reproducible testing while keeping a stable public link.
+- Platform Topic F (Web persistence for best score): **Browser local storage only** selected.
+  - Implementation direction: store best score client-side per browser/device for MVP.
+  - Scope rationale: avoids backend/API complexity in early releases.
