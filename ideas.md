@@ -98,3 +98,6 @@
 - Platform Topic F (Web persistence for best score): **Browser local storage only** selected.
   - Implementation direction: store best score client-side per browser/device for MVP.
   - Scope rationale: avoids backend/API complexity in early releases.
+- Platform Topic G (Desktop distribution priority): **Web first**, Linux/macOS later.
+  - Release priority: focus initial launch and iteration loop on web builds.
+  - Desktop plan: add Linux/macOS native packaging in a later phase after web stabilization.
