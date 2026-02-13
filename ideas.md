@@ -51,3 +51,6 @@
 - Topic 6 (Score model): **Distance only** selected for MVP.
   - Implementation direction: score increases by survived distance/time only, with milestone feedback.
   - Later-phase option: add bonus systems (near-miss/combo) only after core feel is stable.
+- Topic 7 (Visual direction): **Minimal color accent** selected.
+  - Implementation direction: keep clean, high-contrast visuals with restrained accent colors for feedback and identity.
+  - Asset implication: prioritize readability-first silhouettes before decorative detail.
