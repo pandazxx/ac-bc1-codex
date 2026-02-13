@@ -36,3 +36,6 @@
 - Topic 1 (Core game feel): **Arcade-tight** selected.
   - Implementation direction: faster jump arc, stricter timing windows, strong speed escalation.
   - Follow-up needed: finalize hitbox strictness and input buffering policy to support this feel.
+- Topic 2 (Hitbox policy): **Hybrid** selected.
+  - Implementation direction: slightly forgiving player hurtbox, near-strict obstacle hitboxes.
+  - Follow-up needed: choose exact shrink ratio (recommended start: player hurtbox at 85-90% of visual bounds).
