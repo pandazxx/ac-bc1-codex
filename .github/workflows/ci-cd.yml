@@ -1,0 +1,79 @@
+name: CI-CD
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build-desktop:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake build-essential libraylib-dev
+
+      - name: Configure
+        run: cmake -S . -B build
+
+      - name: Build
+        run: cmake --build build --config Release
+
+  build-web:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Emscripten
+        uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: 3.1.64
+
+      - name: Configure web
+        run: emcmake cmake -S . -B build-web
+
+      - name: Build web
+        run: cmake --build build-web --config Release
+
+      - name: Upload web artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: raylib-dino-web
+          path: |
+            build-web/*.html
+            build-web/*.js
+            build-web/*.wasm
+
+  deploy-s3:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    needs: [build-web]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup AWS CLI
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Download web artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: raylib-dino-web
+          path: dist
+
+      - name: Sync latest channel
+        env:
+          S3_BUCKET: ${{ secrets.S3_BUCKET }}
+        run: |
+          test -n "$S3_BUCKET"
+          aws s3 sync dist/ "s3://$S3_BUCKET/game/latest/" --delete

@@ -113,3 +113,12 @@
 - Platform Topic K (Browser support target): **Latest Chrome + Firefox + Safari** selected.
   - Implementation direction: validate MVP builds across all three major browsers before release.
   - QA implication: include cross-browser smoke checks in the release checklist.
+
+### Implementation Notes
+- Implemented first playable skeleton with CMake, raylib modules, and gameplay loop:
+  - `src/main.c`, `src/game.c`, `src/player.c`, `src/obstacle.c`, `src/score_store.c`
+  - `include/game.h`, `include/player.h`, `include/obstacle.h`, `include/score_store.h`
+- Added documentation and pipeline scaffolding:
+  - `design.md` (consolidated spec), `build.md` (build/deploy guide), updated `README.md`
+  - `.github/workflows/ci-cd.yml` for CI + web artifact + S3 latest sync
+- Environment gap in this workspace: `cmake` is not installed locally, so configure/build could not be executed here.
