@@ -104,3 +104,6 @@
 - Platform Topic H (Web analytics for MVP): **None** selected.
   - Implementation direction: ship without analytics instrumentation in MVP.
   - Feedback source: rely on direct playtest feedback and manual observation initially.
+- Platform Topic I (S3 release channel): **Single public channel (`latest`)** selected.
+  - Implementation direction: expose one public channel for MVP to keep release operations simple.
+  - Process implication: use internal versioned artifacts for traceability while publishing only `latest` to players.
