@@ -75,3 +75,6 @@
 - Topic 14 (MVP audio policy): **Minimal SFX only** selected.
   - Implementation direction: include core feedback sounds (jump, hit, milestone/score cue) without background music.
   - Scope rationale: improves game feel while keeping MVP production cost low.
+- Topic 15 (HUD scope for MVP): **Score + persistent best score** selected.
+  - Implementation direction: display current score and all-time best score in HUD.
+  - Technical implication: add lightweight local persistence for best score in MVP.
