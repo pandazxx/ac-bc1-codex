@@ -48,3 +48,6 @@
 - Topic 5 (Obstacle spawn logic): **Pure random with constraints for MVP**, plan to explore **Hybrid pattern + random variation** later.
   - MVP direction: randomize obstacle type/gap with safety constraints to avoid impossible sequences.
   - Later-phase direction: introduce curated pattern chunks and randomized micro-variation for better rhythm.
+- Topic 6 (Score model): **Distance only** selected for MVP.
+  - Implementation direction: score increases by survived distance/time only, with milestone feedback.
+  - Later-phase option: add bonus systems (near-miss/combo) only after core feel is stable.
