@@ -101,3 +101,6 @@
 - Platform Topic G (Desktop distribution priority): **Web first**, Linux/macOS later.
   - Release priority: focus initial launch and iteration loop on web builds.
   - Desktop plan: add Linux/macOS native packaging in a later phase after web stabilization.
+- Platform Topic H (Web analytics for MVP): **None** selected.
+  - Implementation direction: ship without analytics instrumentation in MVP.
+  - Feedback source: rely on direct playtest feedback and manual observation initially.
