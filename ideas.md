@@ -63,3 +63,6 @@
 - Topic 10 (First playable milestone): **Core-loop-first** selected.
   - Milestone includes: player controls, obstacle spawning, collision, game-over state, and instant restart.
   - Success criteria: a complete playable loop with tunable parameters and stable frame pacing.
+- Topic 11 (Jump behavior tuning): **Low jump, fast fall** selected.
+  - Implementation direction: use a snappy jump arc with strong downward acceleration for precision play.
+  - Tuning priority: preserve input responsiveness while preventing floaty airtime.
