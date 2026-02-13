@@ -86,3 +86,6 @@
 - Platform Topic B (Web performance baseline): **60 FPS target with graceful degradation** selected.
   - Implementation direction: design for 60 FPS by default while preserving playable behavior under occasional frame drops.
   - Technical implication: keep update logic delta-time aware and avoid heavy per-frame allocations.
+- Platform Topic C (Web input scheme): **Keyboard only** selected.
+  - Implementation direction: keep input parity between desktop and web for MVP.
+  - Scope implication: defer mouse/touch controls until post-MVP validation.
