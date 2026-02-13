@@ -110,3 +110,6 @@
 - Platform Topic J (Web build loading strategy): **Iteration-first** selected.
   - Implementation direction: keep MVP pipeline simple with minimal load-time optimization initially.
   - Follow-up plan: optimize compression/bundling after gameplay stability and deployment flow are validated.
+- Platform Topic K (Browser support target): **Latest Chrome + Firefox + Safari** selected.
+  - Implementation direction: validate MVP builds across all three major browsers before release.
+  - QA implication: include cross-browser smoke checks in the release checklist.
