@@ -66,3 +66,6 @@
 - Topic 11 (Jump behavior tuning): **Low jump, fast fall** selected.
   - Implementation direction: use a snappy jump arc with strong downward acceleration for precision play.
   - Tuning priority: preserve input responsiveness while preventing floaty airtime.
+- Topic 12 (Duck mechanic behavior): **Pure hitbox shrink** selected.
+  - Implementation direction: duck only changes player profile/hurtbox, with no speed modifier.
+  - Design rationale: keeps readability high and preserves strict rhythm-based timing.
