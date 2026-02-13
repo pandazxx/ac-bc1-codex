@@ -107,3 +107,6 @@
 - Platform Topic I (S3 release channel): **Single public channel (`latest`)** selected.
   - Implementation direction: expose one public channel for MVP to keep release operations simple.
   - Process implication: use internal versioned artifacts for traceability while publishing only `latest` to players.
+- Platform Topic J (Web build loading strategy): **Iteration-first** selected.
+  - Implementation direction: keep MVP pipeline simple with minimal load-time optimization initially.
+  - Follow-up plan: optimize compression/bundling after gameplay stability and deployment flow are validated.
