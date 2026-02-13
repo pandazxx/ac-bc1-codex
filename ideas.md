@@ -42,3 +42,6 @@
 - Topic 3 (Input buffering / coyote time): **Light** selected.
   - Implementation direction: add a small jump buffer and short coyote window to preserve responsiveness without removing challenge.
   - Initial tuning target: 75ms jump buffer, 50ms coyote time.
+- Topic 4 (Difficulty ramp profile): **Stepped ramp** selected.
+  - Implementation direction: increase speed in discrete jumps at score milestones for clear pacing shifts.
+  - Initial tuning target: speed step every 100 points with capped max speed.
