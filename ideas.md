@@ -69,3 +69,6 @@
 - Topic 12 (Duck mechanic behavior): **Pure hitbox shrink** selected.
   - Implementation direction: duck only changes player profile/hurtbox, with no speed modifier.
   - Design rationale: keeps readability high and preserves strict rhythm-based timing.
+- Topic 13 (Game-over restart UX): **Any-key restart** selected.
+  - Implementation direction: allow immediate restart from game-over with any gameplay-relevant key.
+  - UX rationale: minimize downtime and maximize rapid replay loops.
