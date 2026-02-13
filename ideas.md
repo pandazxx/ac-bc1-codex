@@ -78,3 +78,8 @@
 - Topic 15 (HUD scope for MVP): **Score + persistent best score** selected.
   - Implementation direction: display current score and all-time best score in HUD.
   - Technical implication: add lightweight local persistence for best score in MVP.
+
+### Platform Discussion
+- Platform Topic A (Primary MVP target): **Desktop + Web** selected for first release.
+  - Implementation direction: keep core loop/input/render path compatible with native and HTML5/WebAssembly builds.
+  - Follow-up needed: define persistence fallback behavior for web vs desktop.
