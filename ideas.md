@@ -54,3 +54,6 @@
 - Topic 7 (Visual direction): **Minimal color accent** selected.
   - Implementation direction: keep clean, high-contrast visuals with restrained accent colors for feedback and identity.
   - Asset implication: prioritize readability-first silhouettes before decorative detail.
+- Topic 8 (MVP scope boundary): **Strict MVP** selected.
+  - MVP includes: one biome, cactus+bird obstacles, distance score, game-over, and instant restart.
+  - Deferred features: pause menu, high-score persistence, day/night cycle, and skins.
