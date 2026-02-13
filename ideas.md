@@ -39,3 +39,6 @@
 - Topic 2 (Hitbox policy): **Hybrid** selected.
   - Implementation direction: slightly forgiving player hurtbox, near-strict obstacle hitboxes.
   - Follow-up needed: choose exact shrink ratio (recommended start: player hurtbox at 85-90% of visual bounds).
+- Topic 3 (Input buffering / coyote time): **Light** selected.
+  - Implementation direction: add a small jump buffer and short coyote window to preserve responsiveness without removing challenge.
+  - Initial tuning target: 75ms jump buffer, 50ms coyote time.
