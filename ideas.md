@@ -57,3 +57,6 @@
 - Topic 8 (MVP scope boundary): **Strict MVP** selected.
   - MVP includes: one biome, cactus+bird obstacles, distance score, game-over, and instant restart.
   - Deferred features: pause menu, high-score persistence, day/night cycle, and skins.
+- Topic 9 (Technical baseline): **CMake-first** selected.
+  - Implementation direction: establish a scalable CMake project layout from the start.
+  - Immediate implications: standardize build presets/targets and keep testing hooks compatible with `ctest`.
