@@ -89,3 +89,6 @@
 - Platform Topic C (Web input scheme): **Keyboard only** selected.
   - Implementation direction: keep input parity between desktop and web for MVP.
   - Scope implication: defer mouse/touch controls until post-MVP validation.
+- Platform Topic D (Web deployment target): **S3 now, Itch.io end-goal** selected.
+  - Current workflow: deploy web builds to S3 for early access/testing.
+  - Final distribution goal: publish polished web build on Itch.io.
