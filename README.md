@@ -1,6 +1,6 @@
 # Raylib Dino Runner
 
-Arcade-tight 2D runner inspired by Chrome Dino, built in C with raylib.
+Arcade-tight 2D runner inspired by Chrome Dino, built in C with raylib. And run on Web.
 
 ## Current Status
 - Core playable loop implemented: run, avoid obstacles, collision, game over, any-key restart.
