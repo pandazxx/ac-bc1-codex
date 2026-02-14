@@ -9,6 +9,8 @@ typedef struct {
     float velocity_y;
     bool on_ground;
     bool ducking;
+    bool jumped_this_step;
+    bool landed_this_step;
     float jump_buffer_timer;
     float coyote_timer;
 } Player;

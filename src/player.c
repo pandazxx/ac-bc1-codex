@@ -16,6 +16,8 @@ void Player_Init(Player *player, float x, float ground_y) {
     player->velocity_y = 0.0f;
     player->on_ground = true;
     player->ducking = false;
+    player->jumped_this_step = false;
+    player->landed_this_step = false;
     player->jump_buffer_timer = 0.0f;
     player->coyote_timer = COYOTE_S;
 }
@@ -25,6 +27,9 @@ void Player_Reset(Player *player, float x, float ground_y) {
 }
 
 void Player_Update(Player *player, float dt, float ground_y) {
+    player->jumped_this_step = false;
+    player->landed_this_step = false;
+
     if (IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_UP)) {
         player->jump_buffer_timer = JUMP_BUFFER_S;
     }
@@ -47,6 +52,7 @@ void Player_Update(Player *player, float dt, float ground_y) {
     if (player->jump_buffer_timer > 0.0f && player->coyote_timer > 0.0f) {
         player->velocity_y = -JUMP_VELOCITY;
         player->on_ground = false;
+        player->jumped_this_step = true;
         player->jump_buffer_timer = 0.0f;
         player->coyote_timer = 0.0f;
     }
@@ -56,10 +62,14 @@ void Player_Update(Player *player, float dt, float ground_y) {
     player->rect.y += player->velocity_y * dt;
 
     float floor_y = ground_y - player->rect.height;
+    bool was_on_ground = player->on_ground;
     if (player->rect.y >= floor_y) {
         player->rect.y = floor_y;
         player->velocity_y = 0.0f;
         player->on_ground = true;
+        if (!was_on_ground) {
+            player->landed_this_step = true;
+        }
     } else {
         player->on_ground = false;
     }

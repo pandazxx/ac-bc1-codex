@@ -206,3 +206,16 @@
 - SFX Topic 4 (Audio format for web-first MVP): **OGG only** selected.
   - Direction: standardize SFX assets on OGG for smaller payload and web-first delivery.
   - Pipeline note: keep source project files lossless externally; ship OGG runtime assets.
+
+### Art Direction Milestone 1 Implementation
+- Implemented fixed-step simulation (`60 Hz`) with decoupled render loop.
+- Added debug hitbox mode toggle via `D` key.
+- Added sprite/audio integration modules:
+  - `src/animation.c`, `src/art_assets.c`, `src/audio_events.c`
+  - `include/animation.h`, `include/art_assets.h`, `include/audio_events.h`
+- Added runtime placeholder assets:
+  - `assets/runtime/sprites/player.png`, `assets/runtime/sprites/obstacles.png`
+  - `assets/runtime/sfx/*.ogg` for jump/land/hit/milestone/restart
+- Added automated test:
+  - `tests/animation_test.c` registered in `ctest`
+- Updated CI/CD packaging to deploy `assets/runtime` together with `index.html`/JS/WASM.

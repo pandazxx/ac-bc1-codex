@@ -23,6 +23,9 @@ endif()
 
 add_executable(raylib_dino_runner
     src/main.c
+    src/animation.c
+    src/art_assets.c
+    src/audio_events.c
     src/game.c
     src/player.c
     src/obstacle.c
@@ -31,6 +34,9 @@ add_executable(raylib_dino_runner
 
 target_include_directories(raylib_dino_runner PRIVATE include)
 target_link_libraries(raylib_dino_runner PRIVATE raylib)
+if(UNIX AND NOT APPLE)
+    target_link_libraries(raylib_dino_runner PRIVATE m)
+endif()
 
 if(EMSCRIPTEN)
     set_target_properties(raylib_dino_runner PROPERTIES
@@ -40,3 +46,12 @@ if(EMSCRIPTEN)
 endif()
 
 include(CTest)
+
+if(BUILD_TESTING)
+    add_executable(animation_test
+        tests/animation_test.c
+        src/animation.c
+    )
+    target_include_directories(animation_test PRIVATE include)
+    add_test(NAME animation_test COMMAND animation_test)
+endif()

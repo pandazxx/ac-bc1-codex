@@ -19,6 +19,12 @@ cmake --build build
 ./build/raylib_dino_runner
 ```
 
+Run automated tests:
+
+```bash
+ctest --test-dir build --output-on-failure
+```
+
 ## Build (Web / WebAssembly)
 
 ```bash
@@ -31,10 +37,13 @@ Expected output: `build-web/raylib_dino_runner.html` (plus `.js`/`.wasm`).
 Deployment packaging requirement:
 - CD must publish `index.html` as the web entry page.
 - `index.html` is generated from `build-web/raylib_dino_runner.html`.
+- CD must also publish runtime assets under `assets/runtime/`.
 - Deploy bundle shape:
   - `index.html`
   - `*.js`
   - `*.wasm`
+  - `assets/runtime/sprites/*.png`
+  - `assets/runtime/sfx/*.ogg`
 
 ## Local Web Smoke Test
 Use any static server from project root, for example:
@@ -47,6 +56,7 @@ Then open the generated web build in browser and verify:
 - startup + render
 - jump/duck input
 - collision/game-over/restart
+- debug overlay toggle (`D`)
 - best score persistence in same browser
 
 ## S3 Publish Model (Current)
@@ -84,5 +94,9 @@ Recommended hardening:
   - push to `main` or `master`, or
   - push of tag matching `release/*`.
 - CD deploy target: `s3://$S3_BUCKET/$REPO_NAME/$VERSION/`.
-- CD publish content: `index.html`, JS, and WASM (entry path is `/<repo-name>/<version>/index.html`).
+- CD publish content: `index.html`, JS, WASM, and `assets/runtime/` (entry path is `/<repo-name>/<version>/index.html`).
 - Browser validation target: latest Chrome, Firefox, Safari.
+
+## Runtime Notes
+- Simulation uses fixed 60 Hz update steps with decoupled rendering for stable collision/timing.
+- Hit feedback includes a short freeze and tiny camera shake on collision.

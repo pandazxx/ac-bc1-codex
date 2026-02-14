@@ -88,3 +88,11 @@ void Obstacles_Draw(const ObstacleManager *manager) {
         DrawRectangleRec(obstacle->rect, obstacle->type == OBSTACLE_GROUND ? cactus : bird);
     }
 }
+
+const Obstacle *Obstacles_Items(const ObstacleManager *manager) {
+    return manager->items;
+}
+
+size_t Obstacles_Count(void) {
+    return MAX_OBSTACLES;
+}
