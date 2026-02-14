@@ -32,6 +32,7 @@ jobs:
           cp build-web/raylib_dino_runner.html dist/index.html
           cp build-web/*.js dist/
           cp build-web/*.wasm dist/
+          cp build-web/*.data dist/
           mkdir -p dist/assets/runtime
           cp -r assets/runtime/sprites dist/assets/runtime/
           cp -r assets/runtime/sfx dist/assets/runtime/
@@ -44,6 +45,7 @@ jobs:
             dist/index.html
             dist/*.js
             dist/*.wasm
+            dist/*.data
             dist/assets/runtime/sprites/*.png
             dist/assets/runtime/sfx/*.ogg
 
@@ -73,6 +75,7 @@ jobs:
           cp build-web/raylib_dino_runner.html dist/index.html
           cp build-web/*.js dist/
           cp build-web/*.wasm dist/
+          cp build-web/*.data dist/
           mkdir -p dist/assets/runtime
           cp -r assets/runtime/sprites dist/assets/runtime/
           cp -r assets/runtime/sfx dist/assets/runtime/

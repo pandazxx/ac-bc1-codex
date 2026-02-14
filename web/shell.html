@@ -19,11 +19,17 @@
   </style>
 </head>
 <body>
-  <canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
+  <canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
   <script>
     var Module = {
       canvas: document.getElementById("canvas")
     };
+    Module.canvas.addEventListener("click", function () {
+      Module.canvas.focus();
+    });
+    window.addEventListener("load", function () {
+      Module.canvas.focus();
+    });
   </script>
   {{{ SCRIPT }}}
 </body>
