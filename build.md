@@ -81,7 +81,7 @@ Recommended hardening:
 - CI trigger: any branch push.
   - Current CI scope: web configure/build artifact validation.
 - CD trigger:
-  - push to `main`, or
+  - push to `main` or `master`, or
   - push of tag matching `release/*`.
 - CD deploy target: `s3://$S3_BUCKET/$REPO_NAME/$VERSION/`.
 - CD publish content: `index.html`, JS, and WASM (entry path is `/<repo-name>/<version>/index.html`).

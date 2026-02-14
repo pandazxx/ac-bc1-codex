@@ -57,7 +57,7 @@ Build a polished, arcade-tight 2D runner inspired by Chrome Dino using raylib. T
 - First playable milestone: core-loop-first (player, obstacles, collision, game-over, restart)
 - CI/CD direction:
   - CI on branch pushes (web build validation).
-  - CD on `main` pushes and `release/*` tag pushes.
+  - CD on `main`/`master` pushes and `release/*` tag pushes.
   - Publish web artifacts to `s3://<bucket>/<repo-name>/<version>/`.
   - Add cross-browser smoke checks before stable releases.
 

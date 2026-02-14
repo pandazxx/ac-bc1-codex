@@ -127,7 +127,7 @@
 - Removed desktop build from GitHub Actions for now.
 - CI now runs on branch pushes (web build validation only).
 - CD now runs on:
-  - pushes to `main`
+  - pushes to `main` or `master`
   - tag pushes matching `release/*`
 - S3 deploy path changed to `/$repo-name/$version`, where:
   - `$repo-name` is derived from the GitHub repository name
