@@ -178,3 +178,8 @@
 - Art Topic 4 (Background treatment): **Minimal static background** selected.
   - Direction: keep background clean and low-detail to preserve obstacle readability.
   - Scope benefit: lowest production and performance overhead for MVP.
+
+### Animation Topic Decisions
+- Animation Topic 1 (Player run cycle frame count): **4 frames** selected.
+  - Direction: smoother perceived motion while keeping asset scope manageable.
+  - Implementation note: keep timing consistent with arcade-tight feel and speed ramp readability.
