@@ -13,6 +13,7 @@ Arcade-tight 2D runner inspired by Chrome Dino, built in C with raylib. And run 
 - `src/`: gameplay and runtime code
 - `include/`: headers and module interfaces
 - `design.md`: consolidated game design decisions
+- `art_direction.md`: locked MVP art/animation/SFX direction
 - `ideas.md`: running discussion log and open topics
 - `build.md`: build/run/deploy instructions
 

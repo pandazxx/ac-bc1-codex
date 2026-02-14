@@ -51,4 +51,4 @@ Do not commit secrets, machine-specific paths, or compiled binaries. Keep large 
 - Call the user `Moses`.
 - Start every conversation with `What's up Moses.`
 - `ideas.md` records every topic and idea we discuss, plus open items and TODOs; use it to guide implementation.
-- For every conversation, if files change, commit and push to `origin`.
+- Commit and push to `origin` when we explicitly reach a milestone, not after every conversation.

@@ -186,3 +186,23 @@
 - Animation Topic 2 (Jump/land style): **Pose + small squash/stretch** selected.
   - Direction: use restrained deformation to improve impact readability without cartoony excess.
   - Implementation note: keep timing short to preserve snappy control response.
+- Animation Topic 3 (Bird obstacle animation): **3-frame flap** selected.
+  - Direction: provide smoother motion than 2-frame while keeping production cost controlled.
+  - Implementation note: prioritize clear wing silhouettes at high game speed.
+- Animation Topic 4 (Hit reaction feedback): **Short freeze + tiny camera shake** selected.
+  - Direction: add brief impact emphasis without overloading readability.
+  - Implementation note: keep freeze and shake amplitudes small for web comfort.
+
+### SFX Topic Decisions
+- SFX Topic 1 (Sound style): **Synthetic retro blips** selected.
+  - Direction: short, clean synthetic cues aligned with pixel-inspired presentation.
+  - Scope benefit: fast production and consistent tonal identity.
+- SFX Topic 2 (Loudness hierarchy): **Even loudness across all core SFX** selected.
+  - Direction: keep jump/hit/milestone/restart at similar perceived level for a flat mix baseline.
+  - Follow-up note: fine-tune per-event emphasis later during playtest if clarity issues appear.
+- SFX Topic 3 (Variation policy): **Single sound per event** selected.
+  - Direction: use one stable cue each for jump, land, hit, milestone, and restart in MVP.
+  - Scope benefit: reduces implementation complexity and QA surface.
+- SFX Topic 4 (Audio format for web-first MVP): **OGG only** selected.
+  - Direction: standardize SFX assets on OGG for smaller payload and web-first delivery.
+  - Pipeline note: keep source project files lossless externally; ship OGG runtime assets.

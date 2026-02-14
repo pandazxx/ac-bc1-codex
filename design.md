@@ -34,6 +34,23 @@ Build a polished, arcade-tight 2D runner inspired by Chrome Dino using raylib. T
 ## Visual Direction
 - Style: minimal color accent (not monochrome-only).
 - Priority: high-contrast readability over decorative detail.
+- Art style (locked): pixel-inspired silhouettes.
+- Internal render target (locked): mid-res crisp (~480x270 style grid) with clean upscale.
+- Palette strategy (MVP): day palette only.
+- Background treatment (MVP): minimal static background.
+
+## Animation Direction
+- Player run cycle: 4 frames.
+- Jump/land: pose transitions with subtle squash/stretch.
+- Bird obstacle animation: 3-frame flap.
+- Hit feedback: short freeze + tiny camera shake.
+
+## Audio Direction
+- MVP audio scope: SFX only, no background music.
+- SFX style: synthetic retro blips.
+- Loudness policy: even loudness baseline across core events.
+- Variation policy: single sound per event in MVP.
+- Runtime format: OGG-only for web-first delivery.
 
 ## Platform and Release Strategy
 - Primary release focus: web first.
