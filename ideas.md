@@ -175,3 +175,6 @@
 - Art Topic 3 (Palette strategy): **Day palette only (MVP)** selected.
   - Direction: single polished daytime palette for reliable readability and faster production.
   - Deferred: night palette variants and dynamic cycling post-MVP.
+- Art Topic 4 (Background treatment): **Minimal static background** selected.
+  - Direction: keep background clean and low-detail to preserve obstacle readability.
+  - Scope benefit: lowest production and performance overhead for MVP.
