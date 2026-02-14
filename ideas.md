@@ -132,3 +132,6 @@
 - S3 deploy path changed to `/$repo-name/$version`, where:
   - `$repo-name` is derived from the GitHub repository name
   - `$version` is tag suffix for `release/<version>` or `yyyy-mm-dd-<short-sha>` otherwise
+- CD packaging requirement added:
+  - publish `index.html` as the entry page for each deployed version
+  - map `build-web/raylib_dino_runner.html` to `index.html` before S3 sync

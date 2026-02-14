@@ -26,14 +26,21 @@ jobs:
       - name: Build web
         run: cmake --build build-web --config Release
 
+      - name: Package web artifact with index entry
+        run: |
+          mkdir -p dist
+          cp build-web/raylib_dino_runner.html dist/index.html
+          cp build-web/*.js dist/
+          cp build-web/*.wasm dist/
+
       - name: Upload web artifact
         uses: actions/upload-artifact@v4
         with:
           name: raylib-dino-web-${{ github.sha }}
           path: |
-            build-web/*.html
-            build-web/*.js
-            build-web/*.wasm
+            dist/index.html
+            dist/*.js
+            dist/*.wasm
 
   deploy-s3:
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/release/'))
@@ -54,6 +61,13 @@ jobs:
 
       - name: Build web
         run: cmake --build build-web --config Release
+
+      - name: Package deploy bundle with index entry
+        run: |
+          mkdir -p dist
+          cp build-web/raylib_dino_runner.html dist/index.html
+          cp build-web/*.js dist/
+          cp build-web/*.wasm dist/
 
       - name: Resolve deploy version and path
         run: |
@@ -83,5 +97,5 @@ jobs:
           S3_BUCKET: ${{ secrets.S3_BUCKET }}
         run: |
           test -n "$S3_BUCKET"
-          aws s3 sync build-web/ "s3://$S3_BUCKET/$REPO_NAME/$VERSION/" --delete \
-            --exclude "*" --include "*.html" --include "*.js" --include "*.wasm"
+          aws s3 sync dist/ "s3://$S3_BUCKET/$REPO_NAME/$VERSION/" --delete \
+            --exclude "*" --include "index.html" --include "*.js" --include "*.wasm"

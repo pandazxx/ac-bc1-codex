@@ -28,6 +28,14 @@ cmake --build build-web
 
 Expected output: `build-web/raylib_dino_runner.html` (plus `.js`/`.wasm`).
 
+Deployment packaging requirement:
+- CD must publish `index.html` as the web entry page.
+- `index.html` is generated from `build-web/raylib_dino_runner.html`.
+- Deploy bundle shape:
+  - `index.html`
+  - `*.js`
+  - `*.wasm`
+
 ## Local Web Smoke Test
 Use any static server from project root, for example:
 
@@ -48,6 +56,7 @@ Then open the generated web build in browser and verify:
   - If the push is tag `release/<version>`, use `<version>`.
   - Otherwise use `yyyy-mm-dd-<short-sha>` (UTC date + short commit hash).
 - Keep versioned artifacts immutable for rollback and traceability.
+- Entry page contract: each deployed version must include `index.html` at the root of that version prefix.
 
 ## S3 Credentials Setup (GitHub Actions)
 1. Create an IAM user for CI/CD deploys.
@@ -75,4 +84,5 @@ Recommended hardening:
   - push to `main`, or
   - push of tag matching `release/*`.
 - CD deploy target: `s3://$S3_BUCKET/$REPO_NAME/$VERSION/`.
+- CD publish content: `index.html`, JS, and WASM (entry path is `/<repo-name>/<version>/index.html`).
 - Browser validation target: latest Chrome, Firefox, Safari.

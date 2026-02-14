@@ -7,6 +7,7 @@ Arcade-tight 2D runner inspired by Chrome Dino, built in C with raylib. And run 
 - Keyboard controls: `Space`/`Up` jump, `Down` duck.
 - Score system: distance score + persistent best score.
 - Platform focus: web first (desktop later).
+- Deployment entry page: `index.html` per versioned S3 release path.
 
 ## Project Layout
 - `src/`: gameplay and runtime code
