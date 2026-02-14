@@ -22,8 +22,24 @@
   <canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
   <script>
     var Module = {
-      canvas: document.getElementById("canvas")
+      canvas: document.getElementById("canvas"),
+      debugToggleRequested: false,
+      audioUnlockRequested: false
     };
+
+    function requestAudioUnlock() {
+      Module.audioUnlockRequested = true;
+    }
+
+    window.addEventListener("keydown", function (event) {
+      if (event.key === "d" || event.key === "D" || event.key === "F3") {
+        Module.debugToggleRequested = true;
+      }
+      requestAudioUnlock();
+    });
+    window.addEventListener("pointerdown", requestAudioUnlock);
+    window.addEventListener("touchstart", requestAudioUnlock, { passive: true });
+
     Module.canvas.addEventListener("click", function () {
       Module.canvas.focus();
     });
