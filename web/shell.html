@@ -22,40 +22,8 @@
   <canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
   <script>
     var Module = {
-      canvas: document.getElementById("canvas"),
-      debugToggleCount: 0,
-      audioUnlockRequested: false
+      canvas: document.getElementById("canvas")
     };
-
-    function tryResumeAudioNow() {
-      try {
-        if (Module.SDL2 && Module.SDL2.audioContext) {
-          Module.SDL2.audioContext.resume();
-        }
-      } catch (e) {}
-      try {
-        if (typeof AL !== "undefined" && AL.currentContext && AL.currentContext.ctx) {
-          AL.currentContext.ctx.resume();
-        }
-      } catch (e) {}
-    }
-
-    function requestAudioUnlock() {
-      Module.audioUnlockRequested = true;
-      tryResumeAudioNow();
-    }
-
-    function onKeyDown(event) {
-      if (event.code === "KeyD" || event.key === "F3") {
-        Module.debugToggleCount += 1;
-      }
-      requestAudioUnlock();
-    }
-
-    document.addEventListener("keydown", onKeyDown, true);
-    window.addEventListener("pointerdown", requestAudioUnlock);
-    window.addEventListener("touchstart", requestAudioUnlock, { passive: true });
-
     Module.canvas.addEventListener("click", function () {
       Module.canvas.focus();
     });

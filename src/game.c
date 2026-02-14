@@ -4,10 +4,6 @@
 
 #include <raylib.h>
 
-#if defined(__EMSCRIPTEN__)
-#include <emscripten/emscripten.h>
-#endif
-
 #include "animation.h"
 #include "art_assets.h"
 #include "audio_events.h"
@@ -53,36 +49,6 @@ static float g_hit_shake_timer = 0.0f;
 static float g_land_pose_timer = 0.0f;
 static bool g_show_debug_hitboxes = false;
 static int g_last_milestone_played = 0;
-
-#if defined(__EMSCRIPTEN__)
-EM_JS(int, web_consume_debug_toggle_count, (), {
-    if (typeof Module !== 'undefined' && Module.debugToggleCount > 0) {
-        var count = Module.debugToggleCount | 0;
-        Module.debugToggleCount = 0;
-        return count;
-    }
-    return 0;
-});
-
-EM_JS(int, web_consume_audio_unlock, (), {
-    if (typeof Module !== 'undefined' && Module.audioUnlockRequested) {
-        Module.audioUnlockRequested = false;
-        return 1;
-    }
-    return 0;
-});
-
-EM_JS(void, web_resume_audio_context, (), {
-    try {
-        if (typeof Module !== 'undefined' && Module.SDL2 && Module.SDL2.audioContext) {
-            Module.SDL2.audioContext.resume();
-        }
-        if (typeof AL !== 'undefined' && AL.currentContext && AL.currentContext.ctx) {
-            AL.currentContext.ctx.resume();
-        }
-    } catch (e) {}
-});
-#endif
 
 static void reset_run_state(void) {
     g_game.phase = GAME_RUNNING;
@@ -341,18 +307,7 @@ void Game_Init(void) {
 }
 
 void Game_RunFrame(void) {
-    bool native_debug_toggle = IsKeyPressed(KEY_D) || IsKeyPressed(KEY_F3);
-    int debug_toggle_count = native_debug_toggle ? 1 : 0;
-#if defined(__EMSCRIPTEN__)
-    int web_toggle_count = web_consume_debug_toggle_count();
-    if (!native_debug_toggle) {
-        debug_toggle_count += web_toggle_count;
-    }
-    if (web_consume_audio_unlock()) {
-        web_resume_audio_context();
-    }
-#endif
-    if ((debug_toggle_count % 2) != 0) {
+    if (IsKeyPressed(KEY_D)) {
         g_show_debug_hitboxes = !g_show_debug_hitboxes;
     }
 
