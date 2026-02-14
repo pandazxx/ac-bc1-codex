@@ -172,3 +172,6 @@
 - Art Topic 2 (Pixel density/base resolution): **Mid-res crisp** selected.
   - Direction: target a ~480x270 style internal pixel grid with clean upscale behavior.
   - Implication: better silhouette readability while retaining retro texture.
+- Art Topic 3 (Palette strategy): **Day palette only (MVP)** selected.
+  - Direction: single polished daytime palette for reliable readability and faster production.
+  - Deferred: night palette variants and dynamic cycling post-MVP.
