@@ -128,9 +128,10 @@
 - CI now runs on branch pushes (web build validation only).
 - CD now runs on:
   - every commit push on any branch
+  - every tag push
 - S3 deploy path changed to `/$repo-name/$version`, where:
   - `$repo-name` is derived from the GitHub repository name
-  - `$version` is `yyyy-mm-dd-<short-sha>`
+  - `$version` is tag suffix for `release/<version>` when present, otherwise `yyyy-mm-dd-<short-sha>`
 - CD packaging requirement added:
   - publish `index.html` as the entry page for each deployed version
   - map `build-web/raylib_dino_runner.html` to `index.html` before S3 sync

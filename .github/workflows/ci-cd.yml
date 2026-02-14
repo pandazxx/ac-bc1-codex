@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - "**"
+    tags:
+      - "*"
 
 jobs:
   ci-web:
@@ -48,7 +50,7 @@ jobs:
             dist/assets/runtime/sfx/*.ogg
 
   deploy-s3:
-    if: github.event_name == 'push' && github.ref_type == 'branch'
+    if: github.event_name == 'push' && (github.ref_type == 'branch' || github.ref_type == 'tag')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -81,7 +83,12 @@ jobs:
       - name: Resolve deploy version and path
         run: |
           repo_name="${GITHUB_REPOSITORY#*/}"
-          version="$(date -u +%F)-${GITHUB_SHA::7}"
+          release_tag="$(git tag --points-at "$GITHUB_SHA" | grep '^release/' | head -n 1 || true)"
+          if [[ -n "$release_tag" ]]; then
+            version="${release_tag#release/}"
+          else
+            version="$(date -u +%F)-${GITHUB_SHA::7}"
+          fi
           echo "REPO_NAME=${repo_name}" >> "$GITHUB_ENV"
           echo "VERSION=${version}" >> "$GITHUB_ENV"
 
