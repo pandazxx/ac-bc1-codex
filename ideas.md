@@ -93,8 +93,8 @@
   - Current workflow: deploy web builds to S3 for early access/testing.
   - Final distribution goal: publish polished web build on Itch.io.
 - Platform Topic E (S3 release model): **Versioned builds + latest alias** selected.
-  - Implementation direction: publish immutable version directories and update a `latest/` pointer for quick access.
-  - Ops benefit: supports rollback and reproducible testing while keeping a stable public link.
+  - Status: superseded by later CI/CD update to `/<repo-name>/<version>/` deploy paths.
+  - Historical rationale: versioned artifacts support rollback and reproducible testing.
 - Platform Topic F (Web persistence for best score): **Browser local storage only** selected.
   - Implementation direction: store best score client-side per browser/device for MVP.
   - Scope rationale: avoids backend/API complexity in early releases.
@@ -105,8 +105,8 @@
   - Implementation direction: ship without analytics instrumentation in MVP.
   - Feedback source: rely on direct playtest feedback and manual observation initially.
 - Platform Topic I (S3 release channel): **Single public channel (`latest`)** selected.
-  - Implementation direction: expose one public channel for MVP to keep release operations simple.
-  - Process implication: use internal versioned artifacts for traceability while publishing only `latest` to players.
+  - Status: superseded by later CI/CD update to explicit versioned release paths per deploy.
+  - Historical rationale: simplify early release operations.
 - Platform Topic J (Web build loading strategy): **Iteration-first** selected.
   - Implementation direction: keep MVP pipeline simple with minimal load-time optimization initially.
   - Follow-up plan: optimize compression/bundling after gameplay stability and deployment flow are validated.
@@ -122,3 +122,13 @@
   - `design.md` (consolidated spec), `build.md` (build/deploy guide), updated `README.md`
   - `.github/workflows/ci-cd.yml` for CI + web artifact + S3 latest sync
 - Environment gap in this workspace: `cmake` is not installed locally, so configure/build could not be executed here.
+
+### CI/CD Updates
+- Removed desktop build from GitHub Actions for now.
+- CI now runs on branch pushes (web build validation only).
+- CD now runs on:
+  - pushes to `main`
+  - tag pushes matching `release/*`
+- S3 deploy path changed to `/$repo-name/$version`, where:
+  - `$repo-name` is derived from the GitHub repository name
+  - `$version` is tag suffix for `release/<version>` or `yyyy-mm-dd-<short-sha>` otherwise

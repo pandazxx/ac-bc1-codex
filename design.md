@@ -45,8 +45,10 @@ Build a polished, arcade-tight 2D runner inspired by Chrome Dino using raylib. T
 ## Persistence and Deployment
 - Best score persistence (web MVP): browser local storage.
 - Deployment now: S3.
-- S3 release model: versioned artifacts plus public `latest/` alias.
-- Public channel policy (MVP): single public `latest` channel.
+- S3 release model: versioned path `/<repo-name>/<version>/`.
+- Version policy:
+  - tag `release/<version>` -> deploy as `<version>`
+  - otherwise deploy as `yyyy-mm-dd-<short-sha>`
 - Distribution end-goal: publish to Itch.io.
 
 ## Tech and Delivery Baseline
@@ -54,8 +56,9 @@ Build a polished, arcade-tight 2D runner inspired by Chrome Dino using raylib. T
 - Build system: CMake-first
 - First playable milestone: core-loop-first (player, obstacles, collision, game-over, restart)
 - CI/CD direction:
-  - Build/test on pushes and PRs.
-  - Publish web artifacts to versioned S3 path + update `latest/`.
+  - CI on branch pushes (web build validation).
+  - CD on `main` pushes and `release/*` tag pushes.
+  - Publish web artifacts to `s3://<bucket>/<repo-name>/<version>/`.
   - Add cross-browser smoke checks before stable releases.
 
 ## Deferred (Post-MVP)

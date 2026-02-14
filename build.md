@@ -42,9 +42,12 @@ Then open the generated web build in browser and verify:
 - best score persistence in same browser
 
 ## S3 Publish Model (Current)
-- Upload each release to a versioned prefix (example: `s3://<bucket>/game/v0.1.0/`).
-- Update `s3://<bucket>/game/latest/` to point to current public build.
-- Keep versioned artifacts immutable for rollback.
+- Upload each release to `s3://<bucket>/<repo-name>/<version>/`.
+- `<repo-name>` is the GitHub repository name (right side of `owner/repo`).
+- `<version>` is resolved as:
+  - If the push is tag `release/<version>`, use `<version>`.
+  - Otherwise use `yyyy-mm-dd-<short-sha>` (UTC date + short commit hash).
+- Keep versioned artifacts immutable for rollback and traceability.
 
 ## S3 Credentials Setup (GitHub Actions)
 1. Create an IAM user for CI/CD deploys.
@@ -60,12 +63,16 @@ Then open the generated web build in browser and verify:
    - `AWS_REGION` (example: `us-east-1`)
    - `S3_BUCKET` (bucket name only, no `s3://`)
 5. Re-run the workflow; `deploy-s3` will sync web artifacts to:
-   - `s3://$S3_BUCKET/game/latest/`
+   - `s3://$S3_BUCKET/$REPO_NAME/$VERSION/`
 
 Recommended hardening:
 - Replace static IAM keys with GitHub OIDC role assumption when ready.
 
 ## CI/CD Expectations
-- CI: build + tests on PRs and pushes.
-- CD: on merge/tag, publish web artifacts to S3 versioned path and refresh `latest/`.
+- CI trigger: any branch push.
+  - Current CI scope: web configure/build artifact validation.
+- CD trigger:
+  - push to `main`, or
+  - push of tag matching `release/*`.
+- CD deploy target: `s3://$S3_BUCKET/$REPO_NAME/$VERSION/`.
 - Browser validation target: latest Chrome, Firefox, Safari.
