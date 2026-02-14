@@ -64,8 +64,7 @@ Build a polished, arcade-tight 2D runner inspired by Chrome Dino using raylib. T
 - Deployment now: S3.
 - S3 release model: versioned path `/<repo-name>/<version>/`.
 - Version policy:
-  - tag `release/<version>` -> deploy as `<version>`
-  - otherwise deploy as `yyyy-mm-dd-<short-sha>`
+  - `yyyy-mm-dd-<short-sha>`
 - Distribution end-goal: publish to Itch.io.
 
 ## Tech and Delivery Baseline
@@ -74,7 +73,7 @@ Build a polished, arcade-tight 2D runner inspired by Chrome Dino using raylib. T
 - First playable milestone: core-loop-first (player, obstacles, collision, game-over, restart)
 - CI/CD direction:
   - CI on branch pushes (web build validation).
-  - CD on `main`/`master` pushes and `release/*` tag pushes.
+  - CD on every branch push commit.
   - Publish web artifacts to `s3://<bucket>/<repo-name>/<version>/`.
   - Add cross-browser smoke checks before stable releases.
 

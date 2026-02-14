@@ -127,11 +127,10 @@
 - Removed desktop build from GitHub Actions for now.
 - CI now runs on branch pushes (web build validation only).
 - CD now runs on:
-  - pushes to `main` or `master`
-  - tag pushes matching `release/*`
+  - every commit push on any branch
 - S3 deploy path changed to `/$repo-name/$version`, where:
   - `$repo-name` is derived from the GitHub repository name
-  - `$version` is tag suffix for `release/<version>` or `yyyy-mm-dd-<short-sha>` otherwise
+  - `$version` is `yyyy-mm-dd-<short-sha>`
 - CD packaging requirement added:
   - publish `index.html` as the entry page for each deployed version
   - map `build-web/raylib_dino_runner.html` to `index.html` before S3 sync
