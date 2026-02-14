@@ -135,3 +135,32 @@
 - CD packaging requirement added:
   - publish `index.html` as the entry page for each deployed version
   - map `build-web/raylib_dino_runner.html` to `index.html` before S3 sync
+
+### Art / Animation / SFX Brainstorm (Kickoff)
+- Goal: define a cohesive aesthetic package that preserves readability and arcade-tight feel.
+- Constraints from prior decisions:
+  - Minimal color accent visual direction
+  - Web-first performance target (60 FPS with graceful degradation)
+  - MVP audio scope is SFX only (no BGM)
+
+#### Candidate Art Directions
+- Direction A: clean flat silhouettes, warm accent (orange/red), subtle parallax bands.
+- Direction B: pixel-art inspired silhouettes with modern UI text and smooth camera feel.
+- Direction C: low-poly vector look with slightly exaggerated obstacle shapes.
+
+#### Candidate Animation Language
+- Player: 2-3 frame run cycle, snappy jump takeoff frame, squash on landing.
+- Obstacles: mostly static readability-first; birds get 2-frame flap.
+- Feedback: short hit freeze (40-60ms), quick score milestone pop.
+
+#### Candidate SFX Set (MVP)
+- `jump`: short clicky whoosh
+- `land`: light thud
+- `hit`: sharp muted impact
+- `score_milestone`: concise UI ping
+- `restart`: soft confirm tick
+
+#### Open Art Pipeline Items
+- Decide source style: vector-first vs pixel-first.
+- Decide base resolution and scaling policy for web.
+- Define palette tokens (bg/fg/accent/warn).
