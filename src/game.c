@@ -341,9 +341,13 @@ void Game_Init(void) {
 }
 
 void Game_RunFrame(void) {
-    int debug_toggle_count = (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_F3)) ? 1 : 0;
+    bool native_debug_toggle = IsKeyPressed(KEY_D) || IsKeyPressed(KEY_F3);
+    int debug_toggle_count = native_debug_toggle ? 1 : 0;
 #if defined(__EMSCRIPTEN__)
-    debug_toggle_count += web_consume_debug_toggle_count();
+    int web_toggle_count = web_consume_debug_toggle_count();
+    if (!native_debug_toggle) {
+        debug_toggle_count += web_toggle_count;
+    }
     if (web_consume_audio_unlock()) {
         web_resume_audio_context();
     }

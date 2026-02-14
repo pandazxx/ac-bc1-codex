@@ -27,16 +27,32 @@
       audioUnlockRequested: false
     };
 
-    function requestAudioUnlock() {
-      Module.audioUnlockRequested = true;
+    function tryResumeAudioNow() {
+      try {
+        if (Module.SDL2 && Module.SDL2.audioContext) {
+          Module.SDL2.audioContext.resume();
+        }
+      } catch (e) {}
+      try {
+        if (typeof AL !== "undefined" && AL.currentContext && AL.currentContext.ctx) {
+          AL.currentContext.ctx.resume();
+        }
+      } catch (e) {}
     }
 
-    window.addEventListener("keydown", function (event) {
+    function requestAudioUnlock() {
+      Module.audioUnlockRequested = true;
+      tryResumeAudioNow();
+    }
+
+    function onKeyDown(event) {
       if (event.code === "KeyD" || event.key === "F3") {
         Module.debugToggleCount += 1;
       }
       requestAudioUnlock();
-    });
+    }
+
+    document.addEventListener("keydown", onKeyDown, true);
     window.addEventListener("pointerdown", requestAudioUnlock);
     window.addEventListener("touchstart", requestAudioUnlock, { passive: true });
 
