@@ -55,10 +55,11 @@ static bool g_show_debug_hitboxes = false;
 static int g_last_milestone_played = 0;
 
 #if defined(__EMSCRIPTEN__)
-EM_JS(int, web_consume_debug_toggle, (), {
-    if (typeof Module !== 'undefined' && Module.debugToggleRequested) {
-        Module.debugToggleRequested = false;
-        return 1;
+EM_JS(int, web_consume_debug_toggle_count, (), {
+    if (typeof Module !== 'undefined' && Module.debugToggleCount > 0) {
+        var count = Module.debugToggleCount | 0;
+        Module.debugToggleCount = 0;
+        return count;
     }
     return 0;
 });
@@ -340,16 +341,14 @@ void Game_Init(void) {
 }
 
 void Game_RunFrame(void) {
-    bool toggle_debug = IsKeyPressed(KEY_D) || IsKeyPressed(KEY_F3);
+    int debug_toggle_count = (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_F3)) ? 1 : 0;
 #if defined(__EMSCRIPTEN__)
-    if (web_consume_debug_toggle()) {
-        toggle_debug = true;
-    }
+    debug_toggle_count += web_consume_debug_toggle_count();
     if (web_consume_audio_unlock()) {
         web_resume_audio_context();
     }
 #endif
-    if (toggle_debug) {
+    if ((debug_toggle_count % 2) != 0) {
         g_show_debug_hitboxes = !g_show_debug_hitboxes;
     }
 

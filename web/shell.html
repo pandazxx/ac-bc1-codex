@@ -23,7 +23,7 @@
   <script>
     var Module = {
       canvas: document.getElementById("canvas"),
-      debugToggleRequested: false,
+      debugToggleCount: 0,
       audioUnlockRequested: false
     };
 
@@ -32,8 +32,8 @@
     }
 
     window.addEventListener("keydown", function (event) {
-      if (event.key === "d" || event.key === "D" || event.key === "F3") {
-        Module.debugToggleRequested = true;
+      if (event.code === "KeyD" || event.key === "F3") {
+        Module.debugToggleCount += 1;
       }
       requestAudioUnlock();
     });
