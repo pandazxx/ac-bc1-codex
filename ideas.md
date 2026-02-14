@@ -169,3 +169,6 @@
 - Art Topic 1 (Primary visual direction): **Pixel-inspired silhouettes** selected.
   - Direction: retro-flavored shapes with modern readability priorities.
   - Implication: keep sprite counts low and silhouettes clear to protect web performance.
+- Art Topic 2 (Pixel density/base resolution): **Mid-res crisp** selected.
+  - Direction: target a ~480x270 style internal pixel grid with clean upscale behavior.
+  - Implication: better silhouette readability while retaining retro texture.
