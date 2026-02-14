@@ -164,3 +164,8 @@
 - Decide source style: vector-first vs pixel-first.
 - Decide base resolution and scaling policy for web.
 - Define palette tokens (bg/fg/accent/warn).
+
+### Art Topic Decisions
+- Art Topic 1 (Primary visual direction): **Pixel-inspired silhouettes** selected.
+  - Direction: retro-flavored shapes with modern readability priorities.
+  - Implication: keep sprite counts low and silhouettes clear to protect web performance.
