@@ -5,7 +5,7 @@ on:
     branches:
       - "**"
     tags:
-      - "release/*"
+      - "*"
 
 jobs:
   ci-web:
@@ -32,6 +32,7 @@ jobs:
           cp build-web/raylib_dino_runner.html dist/index.html
           cp build-web/*.js dist/
           cp build-web/*.wasm dist/
+          cp build-web/*.data dist/
           mkdir -p dist/assets/runtime
           cp -r assets/runtime/sprites dist/assets/runtime/
           cp -r assets/runtime/sfx dist/assets/runtime/
@@ -44,11 +45,12 @@ jobs:
             dist/index.html
             dist/*.js
             dist/*.wasm
+            dist/*.data
             dist/assets/runtime/sprites/*.png
             dist/assets/runtime/sfx/*.ogg
 
   deploy-s3:
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/release/'))
+    if: github.event_name == 'push' && (github.ref_type == 'branch' || github.ref_type == 'tag')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -73,6 +75,7 @@ jobs:
           cp build-web/raylib_dino_runner.html dist/index.html
           cp build-web/*.js dist/
           cp build-web/*.wasm dist/
+          cp build-web/*.data dist/
           mkdir -p dist/assets/runtime
           cp -r assets/runtime/sprites dist/assets/runtime/
           cp -r assets/runtime/sfx dist/assets/runtime/
@@ -80,15 +83,11 @@ jobs:
       - name: Resolve deploy version and path
         run: |
           repo_name="${GITHUB_REPOSITORY#*/}"
-          if [[ "${GITHUB_REF_TYPE}" == "tag" && "${GITHUB_REF_NAME}" == release/* ]]; then
-            version="${GITHUB_REF_NAME#release/}"
+          release_tag="$(git tag --points-at "$GITHUB_SHA" | grep '^release/' | head -n 1 || true)"
+          if [[ -n "$release_tag" ]]; then
+            version="${release_tag#release/}"
           else
-            release_tag="$(git tag --points-at "$GITHUB_SHA" | grep '^release/' | head -n 1 || true)"
-            if [[ -n "$release_tag" ]]; then
-              version="${release_tag#release/}"
-            else
-              version="$(date -u +%F)-${GITHUB_SHA::7}"
-            fi
+            version="$(date -u +%F)-${GITHUB_SHA::7}"
           fi
           echo "REPO_NAME=${repo_name}" >> "$GITHUB_ENV"
           echo "VERSION=${version}" >> "$GITHUB_ENV"

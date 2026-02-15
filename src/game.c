@@ -49,6 +49,7 @@ static float g_hit_shake_timer = 0.0f;
 static float g_land_pose_timer = 0.0f;
 static bool g_show_debug_hitboxes = false;
 static int g_last_milestone_played = 0;
+static bool g_started = false;
 
 static void reset_run_state(void) {
     g_game.phase = GAME_RUNNING;
@@ -69,6 +70,13 @@ static void reset_run_state(void) {
 
 static bool any_key_pressed(void) {
     return GetKeyPressed() != 0;
+}
+
+static bool start_interaction_detected(void) {
+    return GetKeyPressed() != 0 ||
+           IsMouseButtonPressed(MOUSE_BUTTON_LEFT) ||
+           IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) ||
+           IsMouseButtonPressed(MOUSE_BUTTON_MIDDLE);
 }
 
 static Rectangle frame_rect_from_index(int frame_index, int frames_per_row, int frame_size) {
@@ -262,6 +270,10 @@ static void draw_scene(void) {
     DrawText(TextFormat("SCORE %04d", g_game.score), 12, 12, 14, fg);
     DrawText(TextFormat("BEST %04d", g_game.best_score), 12, 28, 12, fg);
 
+    if (!g_started) {
+        DrawText("PRESS ANY KEY OR CLICK TO START", VIRTUAL_WIDTH / 2 - 102, VIRTUAL_HEIGHT / 2 - 8, 12, fg);
+    }
+
     if (g_game.phase == GAME_OVER) {
         DrawText("GAME OVER", VIRTUAL_WIDTH / 2 - 55, VIRTUAL_HEIGHT / 2 - 18, 24, fg);
         DrawText("PRESS ANY KEY", VIRTUAL_WIDTH / 2 - 55, VIRTUAL_HEIGHT / 2 + 10, 12, fg);
@@ -297,16 +309,25 @@ void Game_Init(void) {
     SetTextureFilter(g_scene_target.texture, TEXTURE_FILTER_POINT);
 
     ArtAssets_Load(&g_art);
-    AudioEvents_Load(&g_audio);
 
     g_game.best_score = ScoreStore_LoadBest();
 
     Player_Init(&g_player, 64.0f, GROUND_Y);
     Obstacles_Init(&g_obstacles);
     reset_run_state();
+    g_started = false;
 }
 
 void Game_RunFrame(void) {
+    if (!g_started) {
+        if (start_interaction_detected()) {
+            AudioEvents_Load(&g_audio);
+            g_started = true;
+        }
+        draw_scene();
+        return;
+    }
+
     if (IsKeyPressed(KEY_D)) {
         g_show_debug_hitboxes = !g_show_debug_hitboxes;
     }

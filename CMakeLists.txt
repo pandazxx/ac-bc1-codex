@@ -41,7 +41,7 @@ endif()
 if(EMSCRIPTEN)
     set_target_properties(raylib_dino_runner PROPERTIES
         SUFFIX ".html"
-        LINK_FLAGS "-s USE_GLFW=3 -s ASYNCIFY --shell-file=${CMAKE_SOURCE_DIR}/web/shell.html"
+        LINK_FLAGS "-s USE_GLFW=3 -s ASYNCIFY --shell-file=${CMAKE_SOURCE_DIR}/web/shell.html --preload-file ${CMAKE_SOURCE_DIR}/assets/runtime@assets/runtime"
     )
 endif()
 

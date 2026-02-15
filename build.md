@@ -63,8 +63,8 @@ Then open the generated web build in browser and verify:
 - Upload each release to `s3://<bucket>/<repo-name>/<version>/`.
 - `<repo-name>` is the GitHub repository name (right side of `owner/repo`).
 - `<version>` is resolved as:
-  - If the push is tag `release/<version>`, use `<version>`.
-  - Otherwise use `yyyy-mm-dd-<short-sha>` (UTC date + short commit hash).
+  - if current commit has tag `release/<version>`, use `<version>`
+  - otherwise use `yyyy-mm-dd-<short-sha>` (UTC date + short commit hash).
 - Keep versioned artifacts immutable for rollback and traceability.
 - Entry page contract: each deployed version must include `index.html` at the root of that version prefix.
 
@@ -91,8 +91,8 @@ Recommended hardening:
 - CI trigger: any branch push.
   - Current CI scope: web configure/build artifact validation.
 - CD trigger:
-  - push to `main` or `master`, or
-  - push of tag matching `release/*`.
+  - every commit push on any branch
+  - every tag push
 - CD deploy target: `s3://$S3_BUCKET/$REPO_NAME/$VERSION/`.
 - CD publish content: `index.html`, JS, WASM, and `assets/runtime/` (entry path is `/<repo-name>/<version>/index.html`).
 - Browser validation target: latest Chrome, Firefox, Safari.
