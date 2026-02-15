@@ -76,9 +76,10 @@ void Player_Update(Player *player, float dt, float ground_y) {
 }
 
 Rectangle Player_GetHurtbox(const Player *player) {
-    const float shrink = 0.88f;
-    float w = player->rect.width * shrink;
-    float h = player->rect.height * shrink;
+    const float shrink_w = 0.68f;
+    const float shrink_h = 0.72f;
+    float w = player->rect.width * shrink_w;
+    float h = player->rect.height * shrink_h;
     float x = player->rect.x + (player->rect.width - w) * 0.5f;
     float y = player->rect.y + (player->rect.height - h) * 0.5f;
     return (Rectangle){x, y, w, h};
