@@ -269,6 +269,7 @@ static void draw_scene(void) {
 
     DrawText(TextFormat("SCORE %04d", g_game.score), 12, 12, 14, fg);
     DrawText(TextFormat("BEST %04d", g_game.best_score), 12, 28, 12, fg);
+    DrawText("KEYS: SPACE/UP JUMP | DOWN DUCK | D DEBUG", 12, VIRTUAL_HEIGHT - 14, 10, (Color){85, 85, 85, 255});
 
     if (!g_started) {
         DrawText("PRESS ANY KEY OR CLICK TO START", VIRTUAL_WIDTH / 2 - 102, VIRTUAL_HEIGHT / 2 - 8, 12, fg);
