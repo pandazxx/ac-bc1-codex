@@ -219,3 +219,20 @@
 - Added automated test:
   - `tests/animation_test.c` registered in `ctest`
 - Updated CI/CD packaging to deploy `assets/runtime` together with `index.html`/JS/WASM.
+
+### Artwork Production Progress
+- Replaced placeholder sprite sheets with first production-style pixel art pass:
+  - `assets/runtime/sprites/player.png` (8-frame sheet: run/jump/duck/land/fall states)
+  - `assets/runtime/sprites/obstacles.png` (3 cactus variants + 3 bird flap frames)
+- Added reproducible generation script:
+  - `assets/tools/generate_pixel_art.py`
+- Compatibility validated:
+  - frame layout and dimensions unchanged (`player: 128x64`, `obstacles: 192x32`)
+  - build/test still passing after asset update
+- Created review branch asset candidates:
+  - `assets/review_sets/set_a/*` (Bold Contrast)
+  - `assets/review_sets/set_b/*` (Retro Soft)
+  - `assets/review_sets/set_c/*` (Arcade Punch)
+  - `assets/review_sets/set_d/*` (Donkey Runner)
+  - generation tool: `assets/tools/generate_review_sets.py`
+- Current active runtime selection: `set_d` (Donkey Runner) copied to `assets/runtime/sprites/*`.

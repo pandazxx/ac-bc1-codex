@@ -61,13 +61,22 @@ void Obstacles_Update(ObstacleManager *manager, float dt, float speed, float gro
 }
 
 bool Obstacles_CheckCollision(const ObstacleManager *manager, Rectangle player_hurtbox) {
+    const float shrink_w = 0.82f;
+    const float shrink_h = 0.82f;
+
     for (size_t i = 0; i < MAX_OBSTACLES; i++) {
         const Obstacle *obstacle = &manager->items[i];
         if (!obstacle->active) {
             continue;
         }
 
-        if (CheckCollisionRecs(player_hurtbox, obstacle->rect)) {
+        float w = obstacle->rect.width * shrink_w;
+        float h = obstacle->rect.height * shrink_h;
+        float x = obstacle->rect.x + (obstacle->rect.width - w) * 0.5f;
+        float y = obstacle->rect.y + (obstacle->rect.height - h) * 0.5f;
+        Rectangle obstacle_hurtbox = (Rectangle){x, y, w, h};
+
+        if (CheckCollisionRecs(player_hurtbox, obstacle_hurtbox)) {
             return true;
         }
     }
