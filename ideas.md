@@ -233,4 +233,6 @@
   - `assets/review_sets/set_a/*` (Bold Contrast)
   - `assets/review_sets/set_b/*` (Retro Soft)
   - `assets/review_sets/set_c/*` (Arcade Punch)
+  - `assets/review_sets/set_d/*` (Donkey Runner)
   - generation tool: `assets/tools/generate_review_sets.py`
+- Current active runtime selection: `set_d` (Donkey Runner) copied to `assets/runtime/sprites/*`.
