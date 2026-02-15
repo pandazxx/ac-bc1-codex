@@ -5,6 +5,6 @@ All sets keep engine-compatible dimensions:
 - obstacles.png: 192x32 (6 frames, 32x32 each)
 
 ## Sets
-- set_a: Bold Contrast
-- set_b: Retro Soft
-- set_c: Arcade Punch
+- set_a: Caveman Club
+- set_b: Fur Runner
+- set_c: Spear Scout
