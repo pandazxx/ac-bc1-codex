@@ -48,6 +48,20 @@ SETS = {
         "bird_dark": (166, 62, 37, 255),
         "style": "spear",
     },
+    "set_d": {
+        "name": "Donkey Runner",
+        "skin": (142, 120, 102, 255),
+        "hair": (72, 60, 52, 255),
+        "cloth": (108, 92, 82, 255),
+        "tool": (95, 80, 66, 255),
+        "tool_hi": (140, 120, 100, 255),
+        "eye": (250, 242, 230, 255),
+        "cactus": (36, 66, 48, 255),
+        "cactus_hi": (80, 130, 97, 255),
+        "bird": (236, 112, 84, 255),
+        "bird_dark": (154, 74, 49, 255),
+        "style": "donkey",
+    },
 }
 
 
@@ -116,17 +130,73 @@ def draw_player_sheet(path: Path, p):
     img = Image.new("RGBA", PLAYER_SIZE, (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
 
-    draw_caveman(d, p, 0, 0, pose=0)
-    draw_caveman(d, p, 32, 0, pose=1)
-    draw_caveman(d, p, 64, 0, pose=2)
-    draw_caveman(d, p, 96, 0, pose=3)
+    if p["style"] == "donkey":
+        draw_donkey_sheet(d, p)
+    else:
+        draw_caveman(d, p, 0, 0, pose=0)
+        draw_caveman(d, p, 32, 0, pose=1)
+        draw_caveman(d, p, 64, 0, pose=2)
+        draw_caveman(d, p, 96, 0, pose=3)
 
-    draw_caveman(d, p, 0, 32, pose=2, airborne=True)
-    draw_caveman(d, p, 32, 32, crouch=True)
-    draw_caveman(d, p, 64, 32, pose=0, squash=2)
-    draw_caveman(d, p, 96, 32, pose=1, airborne=True)
+        draw_caveman(d, p, 0, 32, pose=2, airborne=True)
+        draw_caveman(d, p, 32, 32, crouch=True)
+        draw_caveman(d, p, 64, 32, pose=0, squash=2)
+        draw_caveman(d, p, 96, 32, pose=1, airborne=True)
 
     img.save(path)
+
+
+def draw_donkey(draw, p, ox=0, oy=0, stride=0, crouch=False, squat=False, airborne=False):
+    body = p["skin"]
+    dark = p["hair"]
+    eye = p["eye"]
+
+    body_y = oy + (12 if not squat else 14)
+    body_h = 9 if not squat else 7
+    rect(draw, ox + 8, body_y, 16, body_h, body)   # torso
+    rect(draw, ox + 22, body_y - 5, 7, 6, body)    # neck/head
+    rect(draw, ox + 28, body_y - 3, 2, 3, dark)    # snout tip
+    rect(draw, ox + 24, body_y - 8, 2, 4, dark)    # ear1
+    rect(draw, ox + 27, body_y - 8, 2, 4, dark)    # ear2
+    rect(draw, ox + 24, body_y - 4, 1, 1, eye)     # eye
+    rect(draw, ox + 6, body_y + 1, 2, 1, dark)     # tail root
+    rect(draw, ox + 4, body_y + 1, 2, 1, dark)     # tail tip
+
+    if crouch:
+        rect(draw, ox + 10, oy + 24, 6, 4, body)
+        rect(draw, ox + 17, oy + 24, 6, 4, body)
+        return
+
+    if airborne:
+        rect(draw, ox + 10, oy + 22, 4, 4, body)
+        rect(draw, ox + 18, oy + 22, 4, 4, body)
+        return
+
+    # hoof poses
+    if stride == 0:
+        rect(draw, ox + 10, oy + 20, 3, 8, body)
+        rect(draw, ox + 18, oy + 24, 3, 4, body)
+    elif stride == 1:
+        rect(draw, ox + 10, oy + 24, 3, 4, body)
+        rect(draw, ox + 18, oy + 20, 3, 8, body)
+    elif stride == 2:
+        rect(draw, ox + 10, oy + 21, 3, 7, body)
+        rect(draw, ox + 18, oy + 24, 3, 4, body)
+    else:
+        rect(draw, ox + 10, oy + 24, 3, 4, body)
+        rect(draw, ox + 18, oy + 21, 3, 7, body)
+
+
+def draw_donkey_sheet(draw, p):
+    draw_donkey(draw, p, 0, 0, stride=0)
+    draw_donkey(draw, p, 32, 0, stride=1)
+    draw_donkey(draw, p, 64, 0, stride=2)
+    draw_donkey(draw, p, 96, 0, stride=3)
+
+    draw_donkey(draw, p, 0, 32, stride=2, airborne=True)
+    draw_donkey(draw, p, 32, 32, crouch=True)
+    draw_donkey(draw, p, 64, 32, stride=0, squat=True)
+    draw_donkey(draw, p, 96, 32, stride=1, airborne=True)
 
 
 def cactus(draw, p, ox, variant):
@@ -188,11 +258,12 @@ def main():
         "## Sets\n"
         "- set_a: Caveman Club\n"
         "- set_b: Fur Runner\n"
-        "- set_c: Spear Scout\n",
+        "- set_c: Spear Scout\n"
+        "- set_d: Donkey Runner\n",
         encoding="utf-8",
     )
 
-    print("Generated 3 review sets in assets/review_sets")
+    print("Generated 4 review sets in assets/review_sets")
 
 
 if __name__ == "__main__":

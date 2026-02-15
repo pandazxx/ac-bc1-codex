@@ -8,3 +8,4 @@ All sets keep engine-compatible dimensions:
 - set_a: Caveman Club
 - set_b: Fur Runner
 - set_c: Spear Scout
+- set_d: Donkey Runner
