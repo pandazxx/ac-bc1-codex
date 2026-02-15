@@ -24,6 +24,23 @@
     var Module = {
       canvas: document.getElementById("canvas")
     };
+
+    function tryResumeAudio() {
+      try {
+        if (Module.SDL2 && Module.SDL2.audioContext) {
+          Module.SDL2.audioContext.resume();
+        }
+      } catch (e) {}
+      try {
+        if (typeof AL !== "undefined" && AL.currentContext && AL.currentContext.ctx) {
+          AL.currentContext.ctx.resume();
+        }
+      } catch (e) {}
+    }
+
+    document.addEventListener("keydown", tryResumeAudio, true);
+    window.addEventListener("pointerdown", tryResumeAudio, { passive: true });
+    window.addEventListener("touchstart", tryResumeAudio, { passive: true });
     Module.canvas.addEventListener("click", function () {
       Module.canvas.focus();
     });
