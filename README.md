@@ -36,6 +36,9 @@ cmake --build build
 - Any key on game-over: Restart
 - `D`: Toggle hitbox debug mode
 
+## Web Startup Note
+- On web builds, press any key or click once to start gameplay and unlock audio.
+
 ## Next Milestones
 - Tune obstacle pacing and jump/duck feel from playtest feedback.
 - Add automated tests (`ctest`) for deterministic gameplay logic.
