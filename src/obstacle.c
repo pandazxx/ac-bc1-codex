@@ -12,6 +12,7 @@ static float random_range(float min, float max) {
 static const float TAU = 6.28318530718f;
 static const float AIR_WAVE_HZ = 1.6f;
 static const float AIR_WAVE_ANGULAR_VELOCITY = AIR_WAVE_HZ * TAU;
+static const float AIR_COLLISION_CLEARANCE_PX = 1.0f;
 
 Rectangle Obstacle_GetHurtbox(const Obstacle *obstacle) {
     const float shrink_w = 0.82f;
@@ -51,9 +52,19 @@ static void spawn_obstacle(ObstacleManager *manager, float speed, float ground_y
         float wave_amplitude = 0.0f;
         if (use_air) {
             // Large sweep experiment:
-            // - lowest point stays above duck height (ducking is a safe answer)
+            // - lowest point is computed from collision boxes so ducking is safe
             // - highest point reaches jump-apex height (jumping becomes difficult)
-            const float air_lowest_top_y = ground_y - 38.0f;
+            const float player_duck_height = 30.0f;
+            const float player_duck_hurtbox_shrink_h = 0.72f;
+            const float obstacle_hurtbox_shrink_h = 0.82f;
+
+            // Duck hurtbox top (player hurtbox is foot-anchored in Player_GetHurtbox).
+            const float duck_player_hurtbox_top_y = ground_y - (player_duck_height * player_duck_hurtbox_shrink_h);
+            // For centered obstacle hurtbox, bottom offset from sprite top = h * (1 + shrink_h) / 2.
+            const float obstacle_hurtbox_bottom_offset = height * (1.0f + obstacle_hurtbox_shrink_h) * 0.5f;
+            // Lowest sprite top that keeps obstacle hurtbox bottom above duck hurtbox top by 1px.
+            const float air_lowest_top_y =
+                duck_player_hurtbox_top_y - AIR_COLLISION_CLEARANCE_PX - obstacle_hurtbox_bottom_offset;
             const float air_highest_top_y = ground_y - 178.0f;
             base_y = (air_lowest_top_y + air_highest_top_y) * 0.5f;
             wave_phase = random_range(0.0f, TAU);
