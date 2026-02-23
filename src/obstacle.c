@@ -10,7 +10,7 @@ static float random_range(float min, float max) {
 }
 
 static const float TAU = 6.28318530718f;
-static const float AIR_WAVE_HZ = 2.0f;
+static const float AIR_WAVE_HZ = 1.6f;
 static const float AIR_WAVE_ANGULAR_VELOCITY = AIR_WAVE_HZ * TAU;
 
 Rectangle Obstacle_GetHurtbox(const Obstacle *obstacle) {
@@ -44,14 +44,28 @@ static void spawn_obstacle(ObstacleManager *manager, float speed, float ground_y
         bool use_air = GetRandomValue(0, 100) < 25;
         float width = use_air ? 40.0f : (float)GetRandomValue(28, 56);
         float height = use_air ? 22.0f : (float)GetRandomValue(42, 58);
-        // Low-flying birds should force ducking when the player stays grounded.
-        float y = use_air ? (ground_y - 44.0f) : (ground_y - height);
+        float y = ground_y - height;
+
+        float base_y = y;
+        float wave_phase = 0.0f;
+        float wave_amplitude = 0.0f;
+        if (use_air) {
+            // Large sweep experiment:
+            // - lowest point stays above duck height (ducking is a safe answer)
+            // - highest point reaches jump-apex height (jumping becomes difficult)
+            const float air_lowest_top_y = ground_y - 38.0f;
+            const float air_highest_top_y = ground_y - 178.0f;
+            base_y = (air_lowest_top_y + air_highest_top_y) * 0.5f;
+            wave_phase = random_range(0.0f, TAU);
+            wave_amplitude = (air_lowest_top_y - air_highest_top_y) * 0.5f;
+            y = base_y + sinf(wave_phase) * wave_amplitude;
+        }
 
         manager->items[i].rect = (Rectangle){(float)screen_width + 24.0f, y, width, height};
         manager->items[i].type = use_air ? OBSTACLE_AIR : OBSTACLE_GROUND;
-        manager->items[i].base_y = y;
-        manager->items[i].wave_phase = use_air ? random_range(0.0f, TAU) : 0.0f;
-        manager->items[i].wave_amplitude = use_air ? random_range(6.0f, 10.0f) : 0.0f;
+        manager->items[i].base_y = base_y;
+        manager->items[i].wave_phase = wave_phase;
+        manager->items[i].wave_amplitude = wave_amplitude;
         manager->items[i].active = true;
 
         float min_gap = 200.0f + speed * 0.20f;
