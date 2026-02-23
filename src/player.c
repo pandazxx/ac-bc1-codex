@@ -47,7 +47,11 @@ void Player_Update(Player *player, float dt, float ground_y) {
     player->ducking = player->on_ground && IsKeyDown(KEY_DOWN);
 
     float target_height = player->ducking ? DUCK_HEIGHT : PLAYER_HEIGHT;
-    player->rect.height = target_height;
+    if (player->rect.height != target_height) {
+        float bottom_y = player->rect.y + player->rect.height;
+        player->rect.height = target_height;
+        player->rect.y = bottom_y - player->rect.height;
+    }
 
     if (player->jump_buffer_timer > 0.0f && player->coyote_timer > 0.0f) {
         player->velocity_y = -JUMP_VELOCITY;
@@ -81,6 +85,7 @@ Rectangle Player_GetHurtbox(const Player *player) {
     float w = player->rect.width * shrink_w;
     float h = player->rect.height * shrink_h;
     float x = player->rect.x + (player->rect.width - w) * 0.5f;
-    float y = player->rect.y + (player->rect.height - h) * 0.5f;
+    // Anchor hurtbox toward the feet so ducking posture lines up with visuals.
+    float y = player->rect.y + (player->rect.height - h);
     return (Rectangle){x, y, w, h};
 }
