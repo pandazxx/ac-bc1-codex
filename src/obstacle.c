@@ -1,5 +1,6 @@
 #include "obstacle.h"
 
+#include <math.h>
 #include <stddef.h>
 
 #include <raylib.h>
@@ -7,6 +8,10 @@
 static float random_range(float min, float max) {
     return min + ((float)GetRandomValue(0, 10000) / 10000.0f) * (max - min);
 }
+
+static const float TAU = 6.28318530718f;
+static const float AIR_WAVE_HZ = 2.0f;
+static const float AIR_WAVE_ANGULAR_VELOCITY = AIR_WAVE_HZ * TAU;
 
 Rectangle Obstacle_GetHurtbox(const Obstacle *obstacle) {
     const float shrink_w = 0.82f;
@@ -44,6 +49,9 @@ static void spawn_obstacle(ObstacleManager *manager, float speed, float ground_y
 
         manager->items[i].rect = (Rectangle){(float)screen_width + 24.0f, y, width, height};
         manager->items[i].type = use_air ? OBSTACLE_AIR : OBSTACLE_GROUND;
+        manager->items[i].base_y = y;
+        manager->items[i].wave_phase = use_air ? random_range(0.0f, TAU) : 0.0f;
+        manager->items[i].wave_amplitude = use_air ? random_range(6.0f, 10.0f) : 0.0f;
         manager->items[i].active = true;
 
         float min_gap = 200.0f + speed * 0.20f;
@@ -66,6 +74,13 @@ void Obstacles_Update(ObstacleManager *manager, float dt, float speed, float gro
         }
 
         obstacle->rect.x -= speed * dt;
+        if (obstacle->type == OBSTACLE_AIR) {
+            obstacle->wave_phase += AIR_WAVE_ANGULAR_VELOCITY * dt;
+            if (obstacle->wave_phase > TAU) {
+                obstacle->wave_phase -= TAU;
+            }
+            obstacle->rect.y = obstacle->base_y + sinf(obstacle->wave_phase) * obstacle->wave_amplitude;
+        }
         if (obstacle->rect.x + obstacle->rect.width < 0.0f) {
             obstacle->active = false;
         }

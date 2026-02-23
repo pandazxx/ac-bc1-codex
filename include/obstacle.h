@@ -15,6 +15,9 @@ typedef enum {
 typedef struct {
     Rectangle rect;
     ObstacleType type;
+    float base_y;
+    float wave_phase;
+    float wave_amplitude;
     bool active;
 } Obstacle;
 
