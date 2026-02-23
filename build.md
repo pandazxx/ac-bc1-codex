@@ -67,6 +67,9 @@ Then open the generated web build in browser and verify:
   - otherwise use `yyyy-mm-dd-<short-sha>` (UTC date + short commit hash).
 - Keep versioned artifacts immutable for rollback and traceability.
 - Entry page contract: each deployed version must include `index.html` at the root of that version prefix.
+- CD also publishes a deployment index page at the repo root for quick access:
+  - `/<repo-name>/index.html` (clickable list)
+  - `/<repo-name>/deployments.json` (machine-readable list)
 
 ## S3 Credentials Setup (GitHub Actions)
 1. Create an IAM user for CI/CD deploys.
@@ -95,6 +98,9 @@ Recommended hardening:
   - every tag push
 - CD deploy target: `s3://$S3_BUCKET/$REPO_NAME/$VERSION/`.
 - CD publish content: `index.html`, JS, WASM, and `assets/runtime/` (entry path is `/<repo-name>/<version>/index.html`).
+- CD also publishes deployment listing files at:
+  - `s3://$S3_BUCKET/$REPO_NAME/index.html`
+  - `s3://$S3_BUCKET/$REPO_NAME/deployments.json`
 - Browser validation target: latest Chrome, Firefox, Safari.
 
 ## Runtime Notes
