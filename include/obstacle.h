@@ -30,5 +30,6 @@ bool Obstacles_CheckCollision(const ObstacleManager *manager, Rectangle player_h
 void Obstacles_Draw(const ObstacleManager *manager);
 const Obstacle *Obstacles_Items(const ObstacleManager *manager);
 size_t Obstacles_Count(void);
+Rectangle Obstacle_GetHurtbox(const Obstacle *obstacle);
 
 #endif

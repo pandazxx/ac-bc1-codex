@@ -256,11 +256,12 @@ static void draw_scene(void) {
             if (!obstacle->active) {
                 continue;
             }
+            Rectangle obstacle_hurtbox = Obstacle_GetHurtbox(obstacle);
             DrawRectangleLinesEx((Rectangle){
-                obstacle->rect.x + shake_x,
-                obstacle->rect.y + shake_y,
-                obstacle->rect.width,
-                obstacle->rect.height,
+                obstacle_hurtbox.x + shake_x,
+                obstacle_hurtbox.y + shake_y,
+                obstacle_hurtbox.width,
+                obstacle_hurtbox.height,
             }, 1.0f, RED);
         }
 

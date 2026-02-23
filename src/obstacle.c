@@ -8,6 +8,17 @@ static float random_range(float min, float max) {
     return min + ((float)GetRandomValue(0, 10000) / 10000.0f) * (max - min);
 }
 
+Rectangle Obstacle_GetHurtbox(const Obstacle *obstacle) {
+    const float shrink_w = 0.82f;
+    const float shrink_h = 0.82f;
+
+    float w = obstacle->rect.width * shrink_w;
+    float h = obstacle->rect.height * shrink_h;
+    float x = obstacle->rect.x + (obstacle->rect.width - w) * 0.5f;
+    float y = obstacle->rect.y + (obstacle->rect.height - h) * 0.5f;
+    return (Rectangle){x, y, w, h};
+}
+
 void Obstacles_Init(ObstacleManager *manager) {
     Obstacles_Reset(manager);
 }
@@ -27,8 +38,9 @@ static void spawn_obstacle(ObstacleManager *manager, float speed, float ground_y
 
         bool use_air = GetRandomValue(0, 100) < 25;
         float width = use_air ? 40.0f : (float)GetRandomValue(28, 56);
-        float height = use_air ? 24.0f : (float)GetRandomValue(42, 58);
-        float y = use_air ? (ground_y - 92.0f) : (ground_y - height);
+        float height = use_air ? 22.0f : (float)GetRandomValue(42, 58);
+        // Low-flying birds should force ducking when the player stays grounded.
+        float y = use_air ? (ground_y - 44.0f) : (ground_y - height);
 
         manager->items[i].rect = (Rectangle){(float)screen_width + 24.0f, y, width, height};
         manager->items[i].type = use_air ? OBSTACLE_AIR : OBSTACLE_GROUND;
@@ -61,22 +73,13 @@ void Obstacles_Update(ObstacleManager *manager, float dt, float speed, float gro
 }
 
 bool Obstacles_CheckCollision(const ObstacleManager *manager, Rectangle player_hurtbox) {
-    const float shrink_w = 0.82f;
-    const float shrink_h = 0.82f;
-
     for (size_t i = 0; i < MAX_OBSTACLES; i++) {
         const Obstacle *obstacle = &manager->items[i];
         if (!obstacle->active) {
             continue;
         }
 
-        float w = obstacle->rect.width * shrink_w;
-        float h = obstacle->rect.height * shrink_h;
-        float x = obstacle->rect.x + (obstacle->rect.width - w) * 0.5f;
-        float y = obstacle->rect.y + (obstacle->rect.height - h) * 0.5f;
-        Rectangle obstacle_hurtbox = (Rectangle){x, y, w, h};
-
-        if (CheckCollisionRecs(player_hurtbox, obstacle_hurtbox)) {
+        if (CheckCollisionRecs(player_hurtbox, Obstacle_GetHurtbox(obstacle))) {
             return true;
         }
     }
