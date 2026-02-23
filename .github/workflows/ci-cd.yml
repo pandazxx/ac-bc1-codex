@@ -105,3 +105,106 @@ jobs:
         run: |
           test -n "$S3_BUCKET"
           aws s3 sync dist/ "s3://$S3_BUCKET/$REPO_NAME/$VERSION/" --delete
+
+      - name: Publish deployment index page at repo root
+        env:
+          S3_BUCKET: ${{ secrets.S3_BUCKET }}
+        run: |
+          test -n "$S3_BUCKET"
+
+          mkdir -p deploy-index
+
+          aws s3api list-objects-v2 \
+            --bucket "$S3_BUCKET" \
+            --prefix "$REPO_NAME/" \
+            --delimiter "/" \
+            > deploy-index/listing.json
+
+          python3 - <<'PY'
+          import json
+          import html
+          import os
+          from datetime import datetime, timezone
+
+          repo_name = os.environ["REPO_NAME"]
+          bucket = os.environ["S3_BUCKET"]
+          listing_path = "deploy-index/listing.json"
+
+          with open(listing_path, "r", encoding="utf-8") as f:
+              listing = json.load(f)
+
+          versions = []
+          for item in listing.get("CommonPrefixes", []):
+              prefix = item.get("Prefix", "")
+              if not prefix.startswith(repo_name + "/"):
+                  continue
+              suffix = prefix[len(repo_name) + 1:].strip("/")
+              if not suffix:
+                  continue
+              versions.append(suffix)
+
+          def sort_key(v: str):
+              is_release = 0 if v.startswith("v") else 1
+              return (is_release, v)
+
+          versions = sorted(set(versions), key=sort_key, reverse=True)
+
+          base_url = f"https://demo.pandazxx.com/{repo_name}"
+          entries = [
+              {
+                  "version": v,
+                  "url": f"{base_url}/{v}/index.html",
+              }
+              for v in versions
+          ]
+
+          with open("deploy-index/deployments.json", "w", encoding="utf-8") as f:
+              json.dump(
+                  {
+                      "repo": repo_name,
+                      "generated_at_utc": datetime.now(timezone.utc).isoformat(),
+                      "entries": entries,
+                  },
+                  f,
+                  indent=2,
+              )
+
+          rows = "\n".join(
+              f'<li><a href="{html.escape(e["url"])}">{html.escape(e["version"])}</a></li>'
+              for e in entries
+          ) or "<li>No deployments found</li>"
+
+          page = f"""<!doctype html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>{html.escape(repo_name)} Deployments</title>
+            <style>
+              body {{ font-family: ui-monospace, SFMono-Regular, Menlo, monospace; max-width: 900px; margin: 2rem auto; padding: 0 1rem; background: #f7f7f5; color: #1f1f1f; }}
+              h1 {{ margin-bottom: 0.25rem; }}
+              p {{ color: #555; }}
+              ul {{ padding-left: 1.2rem; }}
+              li {{ margin: 0.35rem 0; }}
+              a {{ color: #0b57d0; text-decoration: none; }}
+              a:hover {{ text-decoration: underline; }}
+              code {{ background: #ececec; padding: 0.1rem 0.25rem; border-radius: 3px; }}
+            </style>
+          </head>
+          <body>
+            <h1>{html.escape(repo_name)} Deployments</h1>
+            <p>Generated from S3 prefixes. Open a version to load the game build.</p>
+            <p>JSON: <a href="./deployments.json"><code>deployments.json</code></a></p>
+            <ul>
+              {rows}
+            </ul>
+          </body>
+          </html>
+          """
+
+          with open("deploy-index/index.html", "w", encoding="utf-8") as f:
+              f.write(page)
+          PY
+
+          aws s3 cp deploy-index/index.html "s3://$S3_BUCKET/$REPO_NAME/index.html"
+          aws s3 cp deploy-index/deployments.json "s3://$S3_BUCKET/$REPO_NAME/deployments.json"
