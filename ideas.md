@@ -236,3 +236,28 @@
   - `assets/review_sets/set_d/*` (Donkey Runner)
   - generation tool: `assets/tools/generate_review_sets.py`
 - Current active runtime selection: `set_d` (Donkey Runner) copied to `assets/runtime/sprites/*`.
+
+## Session 2026-03-07
+
+### Topics & Decisions
+- Repository was hard-reset to `origin/master` and cleaned to remove local experimental deltas.
+- Current baseline is now treated as **V1** at commit `ff27383` (merge of PR #6).
+
+### V1 Sanity Snapshot
+- Git state: clean and aligned with `origin/master`.
+- Build tooling status in this environment: `cmake` is not installed, so configure/build/test could not be executed locally.
+- Static code sanity pass completed across:
+  - core loop/state: `src/main.c`, `src/game.c`
+  - gameplay systems: `src/player.c`, `src/obstacle.c`
+  - support modules: `src/animation.c`, `src/art_assets.c`, `src/audio_events.c`, `src/score_store.c`
+  - test surface: `tests/animation_test.c`
+
+### Open Items & TODOs
+- Install `cmake` in the execution environment and run:
+  - `cmake -S . -B build`
+  - `cmake --build build`
+  - `ctest --test-dir build --output-on-failure`
+- Add/expand deterministic gameplay tests beyond animation timing:
+  - collision edge cases
+  - obstacle spawn timing constraints
+  - score progression boundaries
